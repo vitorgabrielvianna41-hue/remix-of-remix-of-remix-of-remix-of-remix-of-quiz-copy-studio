@@ -36,4 +36,5 @@ use the editor.
 - Keep VSL playback and completion gating in a dedicated player; reveal its actions only from the video's ended event so missing or failed media cannot unlock them.
 - Load the Wistia custom-element scripts after hydration and listen to its native ended event in the dedicated player, so SSR stays browser-safe and CTA gating follows actual playback.
 - Observe the diagnosis's original CTA in the result component to hide its fixed counterpart when fully visible, keeping both actions on the same VSL callback.
+- Initialize quiz tracking through the browser-only effect and deduplicating loader in `src/lib/quiz-tracking.ts`; this keeps vendor scripts SSR-safe and prevents duplicate execution on remount.
 

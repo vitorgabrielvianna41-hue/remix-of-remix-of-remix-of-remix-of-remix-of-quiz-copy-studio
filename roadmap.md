@@ -10,3 +10,4 @@
 - [x] Conferir quatro caminhos e revisão de respostas no celular
 - [x] Inserir vídeo único do Wistia e manter liberação do CTA após o término
 - [x] Aproximar tela da VSL ao anexo e liberar CTA somente após o vídeo terminar
+- [x] Adicionar rastreamento UTM e pixel enviados ao quiz

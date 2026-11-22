@@ -18,6 +18,7 @@ import {
 } from "@/lib/funil";
 import { saveLead } from "@/lib/lead.functions";
 import { normalizeWhats, whatsValid } from "@/lib/lead-input";
+import { initializeQuizTracking } from "@/lib/quiz-tracking";
 
 const WISTIA_MEDIA_ID = "85xuu9y7rj";
 
@@ -47,6 +48,10 @@ function Quiz() {
   const [savedWhats, setSavedWhats] = useState("");
   const [step, setStepRaw] = useState(0);
   const loaded = useRef(false);
+
+  useEffect(() => {
+    initializeQuizTracking();
+  }, []);
 
   useEffect(() => {
     try {
