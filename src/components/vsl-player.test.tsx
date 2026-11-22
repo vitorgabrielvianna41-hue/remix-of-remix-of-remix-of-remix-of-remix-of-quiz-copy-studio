@@ -8,16 +8,20 @@ afterEach(() => {
 });
 
 describe("VSL completion gate", () => {
-  it("only releases the CTA after the video ends", () => {
+  it("releases the CTA only when about 5 seconds remain or the video ends", () => {
     render(<VslPlayer mediaId="85xuu9y7rj" actions={<a href="/planos">Planos</a>} />);
-    const video = screen.getByLabelText("Demonstração do FunilaBot");
+    const video = screen.getByLabelText("Demonstração do FunilaBot") as HTMLElement & { duration: number; currentTime: number };
     expect(screen.queryByRole("link", { name: "Planos" })).toBeNull();
     fireEvent.play(video);
+    video.duration = 100;
+    video.currentTime = 50;
     fireEvent.timeUpdate(video);
-    fireEvent.pause(video);
     expect(screen.queryByRole("link", { name: "Planos" })).toBeNull();
-    fireEvent.ended(video);
+    video.currentTime = 96;
+    fireEvent.timeUpdate(video);
     expect(screen.getByRole("link", { name: "Planos" }).getAttribute("href")).toBe("/planos");
+    fireEvent.ended(video);
+    expect(screen.getByRole("link", { name: "Planos" })).toBeTruthy();
   });
 
   it("does not release the CTA when the video is absent or fails", () => {

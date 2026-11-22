@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { ResultScreen } from "@/components/quiz-result";
 import { VslPlayer } from "@/components/vsl-player";
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
@@ -128,7 +128,7 @@ function Quiz() {
           <LeadScreen whats={whats} savedWhats={savedWhats} answers={answers}
             onSave={(w) => { setWhats(w); go(VSL); }} onSaved={setSavedWhats} />
         )}
-        {step === VSL && complete && <VslScreen onLead={() => go(LEAD)} />}
+        {step === VSL && complete && <VslScreen />}
         {step >= RESULT && !complete && (
           <div className="py-10 text-center">
             <p className="mb-4">Faltam algumas respostas.</p>
