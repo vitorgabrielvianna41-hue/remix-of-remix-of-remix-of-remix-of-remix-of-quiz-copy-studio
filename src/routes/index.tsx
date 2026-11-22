@@ -393,7 +393,7 @@ function LeadScreen({ whats, savedWhats, answers, onSave, onSaved }: {
   );
 }
 
-function VslScreen({ onLead }: { onLead: () => void }) {
+function VslScreen() {
   return (
     <section className="animate-rise text-center">
       <h1 className="flex items-start justify-center gap-2 font-display text-2xl font-extrabold uppercase leading-tight">
@@ -403,12 +403,11 @@ function VslScreen({ onLead }: { onLead: () => void }) {
       <p className="mx-auto mt-3 max-w-sm text-sm leading-relaxed text-muted-foreground">
         Assista ao vídeo <strong className="text-foreground">até o final</strong> e descubra como o FunilaBot pode ajudar sua oficina.
       </p>
-      <VslPlayer mediaId={WISTIA_MEDIA_ID} actions={<>
+      <VslPlayer mediaId={WISTIA_MEDIA_ID} actions={
         <Button asChild className="h-auto min-h-14 w-full whitespace-normal px-4 py-3 font-display text-xl font-bold leading-tight shadow-press">
-          <Link to="/planos" hash="planos">Ver os planos do FunilaBot <ChevronRight /></Link>
+          <a href="https://funilabotpagina.vercel.app/funileiro/index.html" target="_blank" rel="noopener noreferrer">Acessar agora <ChevronRight /></a>
         </Button>
-        <Button variant="link" onClick={onLead} className="mt-3 h-auto w-full whitespace-normal text-muted-foreground">Receber as condições no WhatsApp</Button>
-      </>} />
+      } />
     </section>
   );
 }
