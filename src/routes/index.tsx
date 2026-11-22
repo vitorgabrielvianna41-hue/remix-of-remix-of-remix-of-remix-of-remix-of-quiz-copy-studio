@@ -128,7 +128,7 @@ function Quiz() {
           <LeadScreen whats={whats} savedWhats={savedWhats} answers={answers}
             onSave={(w) => { setWhats(w); go(VSL); }} onSaved={setSavedWhats} />
         )}
-        {step === VSL && complete && <VslScreen answers={answers} onLead={() => go(LEAD)} />}
+        {step === VSL && complete && <VslScreen onLead={() => go(LEAD)} />}
         {step >= RESULT && !complete && (
           <div className="py-10 text-center">
             <p className="mb-4">Faltam algumas respostas.</p>
@@ -393,8 +393,7 @@ function LeadScreen({ whats, savedWhats, answers, onSave, onSaved }: {
   );
 }
 
-function VslScreen({ answers, onLead }: { answers: Answers; onLead: () => void }) {
-  const r = computeResult(answers);
+function VslScreen({ onLead }: { onLead: () => void }) {
   return (
     <section className="animate-rise text-center">
       <h1 className="flex items-start justify-center gap-2 font-display text-2xl font-extrabold uppercase leading-tight">
@@ -404,7 +403,6 @@ function VslScreen({ answers, onLead }: { answers: Answers; onLead: () => void }
       <p className="mx-auto mt-3 max-w-sm text-sm leading-relaxed text-muted-foreground">
         Assista ao vídeo <strong className="text-foreground">até o final</strong> e descubra como o FunilaBot pode ajudar sua oficina.
       </p>
-      <p className="mx-auto mt-2 max-w-sm text-sm leading-relaxed text-muted-foreground">{r.path.videoLine}</p>
       <VslPlayer mediaId={WISTIA_MEDIA_ID} actions={<>
         <Button asChild className="h-auto min-h-14 w-full whitespace-normal px-4 py-3 font-display text-xl font-bold leading-tight shadow-press">
           <Link to="/planos" hash="planos">Ver os planos do FunilaBot <ChevronRight /></Link>
