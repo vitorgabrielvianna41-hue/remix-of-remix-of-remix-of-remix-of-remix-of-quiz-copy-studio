@@ -1,8 +1,11 @@
-import { cleanup, fireEvent, render, screen } from "@testing-library/react";
-import { afterEach, describe, expect, it } from "vitest";
+import { act, cleanup, fireEvent, render, screen } from "@testing-library/react";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import { VslPlayer } from "./vsl-player";
 
-afterEach(cleanup);
+afterEach(() => {
+  vi.useRealTimers();
+  cleanup();
+});
 
 describe("VSL completion gate", () => {
   it("only releases the CTA after the video ends", () => {
@@ -23,5 +26,26 @@ describe("VSL completion gate", () => {
     rerender(<VslPlayer mediaId="85xuu9y7rj" actions={<a href="/planos">Planos</a>} />);
     fireEvent.error(screen.getByLabelText("Demonstração do FunilaBot"));
     expect(screen.queryByRole("link", { name: "Planos" })).toBeNull();
+  });
+});
+
+describe("fake progress bar", () => {
+  it("advances while playing but never completes before the video ends", () => {
+    vi.useFakeTimers();
+    render(<VslPlayer mediaId="85xuu9y7rj" actions={<a href="/planos">Planos</a>} />);
+    const video = screen.getByLabelText("Demonstração do FunilaBot");
+    const bar = screen.getByRole("progressbar", { name: "Progresso do vídeo" });
+    expect(bar.getAttribute("aria-valuenow")).toBe("0");
+    fireEvent.play(video);
+    act(() => { vi.advanceTimersByTime(60_000); });
+    const mid = Number(bar.getAttribute("aria-valuenow"));
+    expect(mid).toBeGreaterThan(50);
+    expect(mid).toBeLessThanOrEqual(93);
+    fireEvent.pause(video);
+    const paused = bar.getAttribute("aria-valuenow");
+    act(() => { vi.advanceTimersByTime(10_000); });
+    expect(bar.getAttribute("aria-valuenow")).toBe(paused);
+    fireEvent.ended(video);
+    expect(bar.getAttribute("aria-valuenow")).toBe("100");
   });
 });
