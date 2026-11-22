@@ -9,7 +9,7 @@ interface WistiaElement extends HTMLElement {
 
 // The bar runs ahead of the video but only completes when the video actually ends.
 const FAKE_CAP = 0.93;
-const FAKE_STEP = 0.05;
+const FAKE_STEP = 0.008;
 const FAKE_TICK_MS = 120;
 
 export function VslPlayer({ mediaId, actions }: { mediaId: string; actions: ReactNode }) {
